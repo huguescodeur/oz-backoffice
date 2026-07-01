@@ -77,7 +77,7 @@ export default function Register() {
             </div>
 
             <Field label="Nom d'utilisateur" error={form.errors.username} required hint="3 caractères minimum, sans espace">
-              <input className="input" {...form.field('username')} placeholder="ex: jean_patron" />
+              <input className="input" {...form.field('username')} placeholder="ex: hugues_patron" />
             </Field>
 
             <Field label="Email" error={form.errors.email} required>
