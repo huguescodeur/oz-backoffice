@@ -79,7 +79,7 @@ export default function Products() {
       category_id: Number(form.values.category_id),
     }
     if (modal === 'create') createMut.mutate(payload)
-    else updateMut.mutate({ id: editing.id, data: payload })
+    else updateMut.mutate({ id: editing.uuid, data: payload })
   }
 
   const exportExcel = () => {
@@ -159,7 +159,7 @@ export default function Products() {
                 </tr>
               )}
               {filtered.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50">
+                <tr key={p.uuid} className="hover:bg-gray-50">
                   <td className="table-td">
                     <p className="font-medium">{p.name}</p>
                     {p.description && <p className="text-xs text-gray-400 truncate max-w-xs mt-0.5">{p.description}</p>}
@@ -176,7 +176,7 @@ export default function Products() {
                       <button
                         className="btn-ghost p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600"
                         title="Supprimer"
-                        onClick={() => { if (window.confirm(`Supprimer "${p.name}" ?`)) deleteMut.mutate(p.id) }}
+                        onClick={() => { if (window.confirm(`Supprimer "${p.name}" ?`)) deleteMut.mutate(p.uuid) }}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
