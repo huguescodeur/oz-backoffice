@@ -168,7 +168,7 @@ export default function Shops() {
           <Field label="Adresse" error={form.errors.address} required>
             <input className="input" {...form.field('address')} placeholder="ex: Plateau, Abidjan" />
           </Field>
-          <Field label="Téléphone" error={form.errors.phone} hint="Format : 10 chiffres (ex: 0102030405) required">
+          <Field label="Téléphone" error={form.errors.phone} hint="Format : 10 chiffres (ex: 0102030405)" required>
             <input className="input" {...form.field('phone')} placeholder="0102030405" maxLength={10} />
           </Field>
           <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 mt-4">
