@@ -15,8 +15,12 @@ const EMPTY = { name: '', address: '', phone: '' }
 const RULES = {
   name:    [rules.required('Le nom')],
   address: [rules.required("L'adresse")],
-  phone:   [(v) => v && !/^\d{10}$/.test(v) ? '10 chiffres requis (ex: 0102030405)' : undefined],
+  phone:   [
+    rules.required('Le téléphone'),
+    (v) => v && !/^\d{10}$/.test(v) ? '10 chiffres requis (ex: 0102030405)' : undefined,
+  ],
 }
+
 
 export default function Shops() {
   const qc = useQueryClient()
@@ -65,7 +69,7 @@ export default function Shops() {
     e.preventDefault()
     const errs = form.validateAll()
     if (Object.keys(errs).length) return
-    const payload = { name: form.values.name, address: form.values.address, phone: form.values.phone || undefined }
+    const payload = { name: form.values.name, address: form.values.address, phone: form.values.phone  }
     if (modal === 'create') createMut.mutate(payload)
     else updateMut.mutate({ id: editing.id, data: payload })
   }
@@ -164,7 +168,7 @@ export default function Shops() {
           <Field label="Adresse" error={form.errors.address} required>
             <input className="input" {...form.field('address')} placeholder="ex: Plateau, Abidjan" />
           </Field>
-          <Field label="Téléphone" error={form.errors.phone} hint="Format : 10 chiffres (ex: 0102030405)">
+          <Field label="Téléphone" error={form.errors.phone} hint="Format : 10 chiffres (ex: 0102030405) required">
             <input className="input" {...form.field('phone')} placeholder="0102030405" maxLength={10} />
           </Field>
           <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 mt-4">
