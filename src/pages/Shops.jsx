@@ -41,7 +41,8 @@ export default function Shops() {
   const createMut = useMutation({
     mutationFn: createShop,
     onSuccess: () => { toast.success('Boutique créée'); invalidate(); setModal(null) },
-    onError: (e) => toast.error(e.response?.data?.error || 'Ce nom est peut-être déjà utilisé'),
+    onError: (e) => toast.error(e.response?.data?.error || e.response?.data?.message || 'Erreur lors de la création'),
+    // onError: (e) => toast.error(e.response?.data?.error || 'Ce nom est peut-être déjà utilisé'),
   })
   const updateMut = useMutation({
     mutationFn: ({ id, data }) => updateShop(id, data),
