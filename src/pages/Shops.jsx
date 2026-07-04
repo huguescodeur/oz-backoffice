@@ -71,11 +71,11 @@ export default function Shops() {
     if (Object.keys(errs).length) return
     const payload = { name: form.values.name, address: form.values.address, phone: form.values.phone  }
     if (modal === 'create') createMut.mutate(payload)
-    else updateMut.mutate({ id: editing.id, data: payload })
+    else updateMut.mutate({ id: editing.uuid, data: payload })
   }
 
   const confirmDelete = (s) => {
-    if (window.confirm(`Supprimer "${s.name}" ? Cette action est irréversible.`)) deleteMut.mutate(s.id)
+    if (window.confirm(`Supprimer "${s.name}" ? Cette action est irréversible.`)) deleteMut.mutate(s.uuid)
   }
 
   const exportExcel = () => {
@@ -142,7 +142,7 @@ export default function Shops() {
                 </tr>
               )}
               {filtered.map((s) => (
-                <tr key={s.id} className="hover:bg-gray-50">
+                <tr key={s.uuid} className="hover:bg-gray-50">
                   <td className="table-td font-medium">{s.name}</td>
                   <td className="table-td text-gray-500">{s.address || '—'}</td>
                   <td className="table-td text-gray-500">{s.phone || '—'}</td>
