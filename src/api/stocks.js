@@ -12,8 +12,12 @@ export const getLowStocks = (shopId) =>
 export const setMinStock = (productId, shopId, minStock) =>
   client.put('/stocks/min', { product_id: productId, shop_id: shopId, min_stock: minStock }).then((r) => r.data)
 
+
 export const stockIn = (productId, shopId, quantity, comment = '') =>
   client.post('/stocks/in', { product_id: productId, shop_id: shopId, quantity, comment }).then((r) => r.data)
 
 export const adjustStock = (productId, shopId, quantityChange, movementType, comment = '') =>
   client.post('/stocks/adjust', { product_id: productId, shop_id: shopId, quantity_change: quantityChange, movement_type: movementType, comment }).then((r) => r.data)
+
+export const initStock = (productId, shopId) =>
+  client.post('/stocks/init', { product_id: productId, shop_id: shopId }).then((r) => r.data)

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getShops } from '../api/shops'
 import { getProducts } from '../api/products'
-import { getStocks, getLowStocks, setMinStock, stockIn, adjustStock } from '../api/stocks'
+import { getStocks, getLowStocks, setMinStock, stockIn, adjustStock, initStock } from '../api/stocks'
 import { useAuth } from '../context/AuthContext'
 import Modal from '../components/Modal'
 import Field from '../components/Field'
@@ -73,10 +73,17 @@ export default function Stocks() {
   }
 
   const addMut = useMutation({
-    mutationFn: () => stockIn(Number(addForm.product_id), Number(shopId), Number(addForm.quantity)),
-    onSuccess: () => { toast.success('Stock ajouté'); invalidate(); setAddModal(false); setAddForm({ product_id: '', quantity: '' }) },
-    onError: (e) => toast.error(e.response?.data?.error || 'Erreur'),
-  })
+  mutationFn: async () => {
+    try {
+      await initStock(Number(addForm.product_id), Number(shopId))
+    } catch  {
+      // ? ignore si déjà initialisé (ON CONFLICT gère ça côté DB de toute façon)
+    }
+    return stockIn(Number(addForm.product_id), Number(shopId), Number(addForm.quantity))
+  },
+  onSuccess: () => { toast.success('Stock ajouté'); invalidate(); setAddModal(false); setAddForm({ product_id: '', quantity: '' }) },
+  onError: (e) => toast.error(e.response?.data?.error || 'Erreur'),
+})
 
   const adjMut = useMutation({
     mutationFn: () => {
